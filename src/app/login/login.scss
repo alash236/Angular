@@ -1,0 +1,69 @@
+.login_title{
+    font-family: 標楷體;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+    color:white;
+}
+.login_warp{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.login_div{
+    width:400px;
+    display: flex;
+    align-items: center;
+    background-color:#fcefe9;
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+}
+.login_img{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.login_input{
+    background-color: #fcefe9;
+    border:none;
+    outline: none;
+}
+.login_div_button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login_button{
+    border-radius: 0px;
+    color: white;
+    background-color: rgb(150, 22, 22);
+    font-size: 20px;
+    font-family: 標楷體;
+    width: 250px;
+    height: 40px;
+    margin-top: 10px;
+}
+.login_div_a{
+    text-align: center;
+    margin-top: 30px;
+}
+.login_a{
+    color: white;
+    font-family: 標楷體;
+    font-weight: bold;
+    font-size: 15px;
+}
+.login_eye_button{
+
+      background-color: transparent;
+      border: none;
+      background-repeat: no-repeat;
+      background-size: contain;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+}

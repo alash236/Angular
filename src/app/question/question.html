@@ -1,0 +1,10 @@
+<h1>{{ question?.question_name }}</h1>
+<p>{{ question?.question_text }}</p>
+<label>{{questionName}}</label>
+@if(question_answer_type=='S'){
+  <label>{{question_answer}}</label>
+}@else if (question_answer_type=='M') {
+  <label>{{question_answer}}</label>
+}@else {
+  <label>{{question_answer}}</label>
+}

@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+
+.form-wrapper {
+  flex: 1;
+  padding: 20px;
+  border: 4px solid #933;
+  border-radius: 15px;
+  margin: 20px;
+  background-color: #f9f6ef;
+}
+
+
+
+
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+.question_btn_class{
+  position: relative;
+  width: 60px;
+  height:30px;
+}
+
+input[type="text"],
+textarea,
+input[type="date"] {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}

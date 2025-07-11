@@ -1,0 +1,102 @@
+<div class="back_div">
+    <mat-icon aria-hidden="false" fontIcon="search"></mat-icon>
+
+    <input [(ngModel)] = "search_name" (keyup)="search_name_function()" placeholder="搜尋問卷名稱" type="text" class="back_input"/>
+
+    <label class="back_label">開始時間:</label>
+    <input [(ngModel)] = "search_start_time" (change)="search_name_function()" type="date" [min]="today" [max]="maxStartTime" class="back_input"/>
+
+    <label class="back_label">結束時間:</label>
+    <input [(ngModel)] = "search_end_time"  (change)="search_name_function()" type="date" [min]="today" [max]="maxEndTime" class="back_input"/>
+</div>
+
+
+<div class = "back_table_div">
+      <div class="bar">
+        <section>
+          <div class="example-button-row">
+            <div class="example-flex-container">
+              <button matMiniFab (click)="go_menu()">
+                <mat-icon>menu</mat-icon>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="example-button-row">
+            <div class="example-flex-container">
+              <button matMiniFab (click)="add()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="example-button-row">
+            <div class="example-flex-container">
+              <button matMiniFab (click)="login_out()">
+                <mat-icon>logout</mat-icon>
+              </button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+
+<div class="mat-table">
+    <table mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="question_ID">
+        <th mat-header-cell *matHeaderCellDef> 編號 </th>
+        <td mat-cell *matCellDef="let element"> {{element.question_ID}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="question_name">
+        <th mat-header-cell *matHeaderCellDef> 名稱 </th>
+        <td mat-cell *matCellDef="let element"> {{element.props.question_name}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="question_state">
+        <th mat-header-cell *matHeaderCellDef> 狀態 </th>
+        <td mat-cell *matCellDef="let element" [ngStyle]="{ color: element.props.question_state === '進行中' ? 'blue' : 'black' }">  {{element.props.question_state}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="date_start">
+        <th mat-header-cell *matHeaderCellDef> 開始時間 </th>
+        <td mat-cell *matCellDef="let element"> {{element.props.date_start}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="date_end">
+        <th mat-header-cell *matHeaderCellDef> 結束時間 </th>
+        <td mat-cell *matCellDef="let element"> {{element.props.date_end}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="date_write">
+        <th mat-header-cell *matHeaderCellDef> 結果 </th>
+        <td mat-cell *matCellDef="let element">
+
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> 刪除 </th>
+        <td mat-cell *matCellDef="let element; let i = index">
+          <mat-icon aria-hidden="false" fontIcon="delete" (click)="delete(i)"></mat-icon>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                  showFirstLastButtons
+                  aria-label="Select page of periodic elements">
+    </mat-paginator>
+  </div>
+</div>
+
+

@@ -1,0 +1,59 @@
+
+  <div class="container">
+  <div class="form-wrapper">
+    <mat-tab-group>
+      <mat-tab label="題目設定">
+        <label>問卷名稱:</label>
+        <input [(ngModel)]="new_question_data.props.question_name" type="text" placeholder="請輸入問卷名稱(20字以下)">
+
+        <label>問卷說明:</label>
+          <textarea [(ngModel)]="new_question_data.props.question_text" placeholder="請為問卷添加說明(300字以下)"></textarea>
+
+        <label>開始日期:</label>
+          <input placeholder="請輸入開始日期" [(ngModel)]="new_question_data.props.date_start" type="date" min={{today}} max={{maxStartTime}}>
+
+        <label>結束日期:</label>
+          <input placeholder="請輸入結束日期" [(ngModel)]="new_question_data.props.date_end" type="date" min={{today}} max={{maxEndTime}}>
+      </mat-tab>
+
+      <mat-tab label="題型設定">
+        <h3>題目名稱</h3>
+          <input [(ngModel)]=""/>
+          <input type="checkbox" [(ngModel)]="isChecked"/><label>是否必填</label>
+          <mat-form-field>
+            <mat-label>選擇題型</mat-label>
+            <mat-select [(ngModel)]="">
+              <mat-option value="S">單選題</mat-option>
+              <mat-option value="M">多選題</mat-option>
+              <mat-option value="T">文字題</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+
+        <button (click)="">新增答案</button>
+
+        <button (click)="question_set_next()">下一步</button>
+        <button (click)="question_set_cancel()">取消</button>
+
+      </mat-tab>
+
+    </mat-tab-group>
+
+      <div>
+        @for(q of question_data;track $index){
+          <label>{{$index+1}}</label>
+          <label>{{q.props.questionName}}</label>
+          @if(q.question_answer_type==='S'){
+            <label>單選題</label>
+          }@else if(q.props.question_answer_type==='M'){
+            <label>多選題</label>
+          }@else if (q.props.question_answer_type==='T') {
+            <label>文字題</label>
+          }
+          @if(q.props.question_isTrue===true){
+            <mat-icon aria-hidden="false" fontIcon="check"></mat-icon>
+          }
+        }
+    </div>
+  </div>
+</div>

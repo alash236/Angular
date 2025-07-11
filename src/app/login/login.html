@@ -1,0 +1,20 @@
+  <h1 class="login_title">登入會員</h1>
+
+  <div  class="login_warp">
+
+      <div class = "login_div">
+          <img src="user-solid.png" class="login_img">
+          <input [(ngModel)]="userName" placeholder="請輸入帳號" type="text" class="login_input" >
+      </div>
+
+      <div class = "login_div">
+          <img src="key-solid.png" class="login_img">
+          <input [(ngModel)]="userPassword" placeholder="請輸入密碼" type="password" class="login_input" id="login_password">
+      </div>
+
+  </div>
+
+  <div class="login_div_button">
+      <button (click)="login_data(userName,userPassword)" class="login_button" >登入</button>
+  </div>
+
