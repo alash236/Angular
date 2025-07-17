@@ -1,0 +1,14 @@
+<div class="btn-container">
+  <button (click)="go_front()">回首頁</button>
+</div>
+
+<div class="container">
+  <div *ngFor="let question of questionData" class="question-block">
+    <h1 class="question-title">{{ question.title }}</h1>
+
+    <div *ngFor="let topic of question.questionTopic; let i = index" class="topic-block">
+      <div class="topic-name">{{ topic.questionName }}</div>
+      <canvas id="chart-{{question.questionID}}-{{i}}"></canvas>
+    </div>
+  </div>
+</div>

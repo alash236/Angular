@@ -24,7 +24,7 @@ export class Back {
   search_end_time:string="";
   searchArray:any[]=[];
 
-  displayedColumns: any[] = ['question_ID','question_name','question_state','date_start','date_end','date_write','action'];
+  displayedColumns: any[] = ['question_ID','question_name','question_state','date_start','date_end','action'];
 
   dataSource = new MatTableDataSource<any>();
 
@@ -40,9 +40,8 @@ export class Back {
     this.today = format(new Date(),"yyyy-MM-dd");
     this.maxStartTime = format(addDays(new Date(),2),'yyyy-MM-dd');
     this.maxEndTime = format(addDays(new Date(),7),'yyyy-MM-dd');
-    this.dataSource.data = this.service.getQuestions();
     this.searchArray = this.service.getQuestions();
-
+    this.dataSource.data = this.service.getQuestions();
   }
 
   ngAfterViewInit() {
@@ -51,24 +50,29 @@ export class Back {
 
   search_name_function() {
     const tidyData = this.searchArray.filter(res => {
-      const matchesName = this.search_name === '' || res.question_name.includes(this.search_name);
-      const matchesStart = this.search_start_time === '' || res.date_start >= this.search_start_time;
-      const matchesEnd = this.search_end_time === '' || res.date_end <= this.search_end_time;
+      const matchesName = this.search_name === '' || res.questionTitle.questionName.includes(this.search_name);
+      const matchesStart = this.search_start_time === '' || res.questionTitle.questionStart >= this.search_start_time;
+      const matchesEnd = this.search_end_time === '' || res.questionTitle.questionEnd <= this.search_end_time;
       return matchesName && matchesStart && matchesEnd;
     });
     this.dataSource.data = tidyData;
   }
 
-  go_menu(){
-    this.router.navigate(['/front']);
+  go_statistics(){
+    this.router.navigate(['/statistics']);
   }
+
+  go_feedback(){
+    this.router.navigate(['./feedback']);
+  }
+
   add(){
-    this.router.navigate(['/back/add'])
+    this.router.navigate(['/back/add']);
   }
 
   login_out(){
     alert("已登出！");
-    this.router.navigate(['/front'])
+    this.router.navigate(['/front']);
   }
 
   delete(index: number) {

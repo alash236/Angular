@@ -1,0 +1,114 @@
+/* Reset & 基本字型 */
+body {
+  font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+}
+
+/* 表單容器 */
+.form-wrapper {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px 40px;
+  background-color: #fff;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  border-radius: 12px;
+  border: 1px solid #e1e4e8;
+}
+
+/* 標題 */
+.title {
+  font-size: 2rem; /* 32px */
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #222;
+  text-align: center; /* 置中 */
+}
+
+/* 日期 */
+.date {
+  font-size: 0.875rem; /* 14px */
+  color: #888;
+  margin-bottom: 20px;
+  text-align: center; /* 置中 */
+  font-style: italic;
+}
+
+/* 描述文字 */
+.description {
+  margin-bottom: 35px;
+  font-size: 1.1rem;
+  color: #444;
+  text-align: center; /* 置中 */
+  line-height: 1.5;
+}
+
+/* 使用者資訊 */
+.user-info ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 30px 0;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.user-info li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #555;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 6px;
+}
+
+/* 問題區塊 */
+.questions .question-block {
+  padding: 20px 0;
+  border-top: 1px solid #ddd;
+}
+
+.questions .question-block:first-child {
+  border-top: none;
+}
+
+.questions .question-block h3 {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+/* 答案文字 */
+.answer {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* 按鈕區 */
+.button-group {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.button-group button {
+  padding: 12px 24px;
+  margin: 0 10px;
+  border: none;
+  background-color: #4a90e2;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(74, 144, 226, 0.4);
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.button-group button:hover {
+  background-color: #357abd;
+  box-shadow: 0 5px 12px rgba(53, 122, 189, 0.7);
+}

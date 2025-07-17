@@ -1,18 +1,19 @@
-import { Service } from './../@service/service';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {  Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import {  Router } from '@angular/router';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule],
+  imports: [FormsModule,MatIconModule],
   templateUrl: './login.html',
   styleUrl: './login.scss'
 })
 export class Login {
-  constructor(private router:Router,private service:Service){}
+  constructor(private router:Router){}
   userName:string="";
   userPassword:string="";
+  changetype=false;
 
   login_data(userName: string, userPassword: string) {
     const username = userName.trim();
@@ -27,5 +28,8 @@ export class Login {
       this.userPassword='';
       alert("帳號密碼錯誤!");
     }
+  }
+  changeType(){
+    this.changetype = !this.changetype;
   }
 }

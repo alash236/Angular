@@ -1,59 +1,97 @@
-
-  <div class="container">
+<div class="container">
   <div class="form-wrapper">
-    <mat-tab-group>
+    <mat-tab-group [(selectedIndex)]="selectedTabIndex">
       <mat-tab label="題目設定">
-        <label>問卷名稱:</label>
-        <input [(ngModel)]="new_question_data.props.question_name" type="text" placeholder="請輸入問卷名稱(20字以下)">
+        <div class="form-content">
+          <div class="form-group">
+            <label for="questionName">問卷名稱:</label>
+            <input id="questionName" [(ngModel)]="question.questionTitle.questionName" type="text" placeholder="請輸入問卷名稱(20字以下)" maxlength="20" />
+          </div>
 
-        <label>問卷說明:</label>
-          <textarea [(ngModel)]="new_question_data.props.question_text" placeholder="請為問卷添加說明(300字以下)"></textarea>
+          <div class="form-group">
+            <label for="questionText">問卷說明:</label>
+            <textarea id="questionText" [(ngModel)]="question.questionTitle.questionText" placeholder="請為問卷添加說明(300字以下)" maxlength="300" rows="4"></textarea>
+          </div>
 
-        <label>開始日期:</label>
-          <input placeholder="請輸入開始日期" [(ngModel)]="new_question_data.props.date_start" type="date" min={{today}} max={{maxStartTime}}>
+          <div class="form-row">
+            <div class="form-group small">
+              <label for="startDate">開始日期:</label>
+              <input id="startDate" type="date" [(ngModel)]="question.questionTitle.questionStart" [min]="today" [max]="maxStartTime" />
+            </div>
 
-        <label>結束日期:</label>
-          <input placeholder="請輸入結束日期" [(ngModel)]="new_question_data.props.date_end" type="date" min={{today}} max={{maxEndTime}}>
+            <div class="form-group small">
+              <label for="endDate">結束日期:</label>
+              <input id="endDate" type="date" [(ngModel)]="question.questionTitle.questionEnd" [min]="today" [max]="maxEndTime" />
+            </div>
+          </div>
+        </div>
+        <div class="button-row">
+          <button class="btn-primary" (click)="questionTitleCheck()">下一步</button>
+          <button class="btn-secondary" (click)="questionTitleCancel()">取消</button>
+        </div>
       </mat-tab>
 
-      <mat-tab label="題型設定">
-        <h3>題目名稱</h3>
-          <input [(ngModel)]=""/>
-          <input type="checkbox" [(ngModel)]="isChecked"/><label>是否必填</label>
-          <mat-form-field>
-            <mat-label>選擇題型</mat-label>
-            <mat-select [(ngModel)]="">
-              <mat-option value="S">單選題</mat-option>
-              <mat-option value="M">多選題</mat-option>
-              <mat-option value="T">文字題</mat-option>
-            </mat-select>
-          </mat-form-field>
+      <mat-tab label="題型設定" [disabled]="!titleCheck">
+        <button class="btn-primary" (click)="AddTopic()">新增題目</button>
 
-
-        <button (click)="">新增答案</button>
-
-        <button (click)="question_set_next()">下一步</button>
-        <button (click)="question_set_cancel()">取消</button>
-
-      </mat-tab>
-
-    </mat-tab-group>
-
-      <div>
-        @for(q of question_data;track $index){
-          <label>{{$index+1}}</label>
-          <label>{{q.props.questionName}}</label>
-          @if(q.question_answer_type==='S'){
-            <label>單選題</label>
-          }@else if(q.props.question_answer_type==='M'){
-            <label>多選題</label>
-          }@else if (q.props.question_answer_type==='T') {
-            <label>文字題</label>
-          }
-          @if(q.props.question_isTrue===true){
-            <mat-icon aria-hidden="false" fontIcon="check"></mat-icon>
-          }
+        <div *ngFor="let topic of question.questionTopic; let t = index" class="topic-block">
+          <h3>題目名稱</h3>
+          <div class="form-row align-center">
+            <input [(ngModel)]="question.questionTopic[t].questionName" placeholder="題目名稱" />
+            <label class="checkbox-label">
+              <input type="checkbox" [(ngModel)]="question.questionTopic[t].questionClick" />
+              是否必填
+            </label>
+            <label>選擇題型</label>
+            <select [(ngModel)]="question.questionTopic[t].questionAnswerType" (ngModelChange)="onAnswerTypeChange(t)">
+              <option value="S">單選題</option>
+              <option value="M">多選題</option>
+              <option value="T">文字題</option>
+            </select>
+          </div>
+          @if(question.questionTopic[t].questionAnswerType!='T'){
+          <button class="btn-secondary" (click)="AddAnswer(t)">新增答案</button>
+          <div class="answers">
+            @for(answer of topic.questionAnswer;track $index;let a = $index){
+              <input [(ngModel)]="question.questionTopic[t].questionAnswer[a]" placeholder="答案" />
+              <button type="button" class="btn-delete" (click)="removeAnswer(t, a)">刪除</button>
+            }
+          </div>
         }
-    </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>名稱</th>
+              <th>類型</th>
+              <th>必填</th>
+              <th>刪除</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let topic of question.questionTopic; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ topic.questionName }}</td>
+              <td>
+                {{ topic.questionAnswerType === 'S' ? '單選' : topic.questionAnswerType === 'M' ? '多選' : '文字' }}
+              </td>
+              <td>
+                <mat-icon *ngIf="topic.questionClick" color="primary">check</mat-icon>
+              </td>
+              <td (click)="deleteTopic(i)" class="delete-cell">
+                <mat-icon color="warn">delete</mat-icon>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="button-row">
+          <button class="btn-primary" (click)="questionTopicCheck()">下一步</button>
+          <button class="btn-secondary" (click)="questionTopicCancel()">取消</button>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </div>

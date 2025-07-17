@@ -10,6 +10,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
 
+
 @Component({
   selector: 'app-back-add',
   imports: [MatIconModule,FormsModule,CommonModule,MatTabsModule,MatFormFieldModule, MatSelectModule, MatInputModule],
@@ -18,96 +19,126 @@ import {MatIconModule} from '@angular/material/icon';
 })
 
 export class BackAdd {
+  titleCheck: boolean = false;
+  selectedTabIndex = 0;
   constructor(private router:Router,private service:Service){}
 
-  question_data:any[]=[];
+  QuestionData:any[]=[];
 
-  new_question_data:any={
-    question_ID:Math.floor(Math.random()*50),
-    props:{
-      question_name:'',
-      question_text:'',
-      question_state:'',
-      date_start:'',
-      date_end:'',
-      date_write:false,
+  question={
+    questionID:0,
+
+    questionTitle:{
       questionName:'',
-      question_answer:[],
-      question_answer_type:'',
-      question_isTrue:false
-    }
+      questionText:'',
+      questionState:'',
+      questionStart:'',
+      questionEnd:'',
+      questionTF:false
+    },
+    questionTopic:[{
+      questionName:'',
+      questionAnswerType:'',
+      questionAnswer:[] as any,
+      questionClick:false
+      }]
   }
 
-  today:string = '';
-  maxStartTime:string = '';
-  maxEndTime:string = '';
-  isChecked:boolean=false;
 
+  today:string='';
+  maxStartTime:string='';
+  maxEndTime:string='';
+  questionTopicClick:boolean=false;
   ngOnInit(): void {
     this.today = format(new Date(),'yyyy-MM-dd');
     this.maxStartTime = format(addDays(new Date(),2),'yyyy-MM-dd');
     this.maxEndTime = format(addDays(new Date(),7),'yyyy-MM-dd');
   }
-
-  question_set_next(){
-
-
-
-
-
-        if(this.today >= this.new_question_data.props.date_start && this.today <= this.new_question_data.props.date_end){
-          this.new_question_data.props.question_state = '進行中';
-        }else if(this.today < this.new_question_data.props.date_start){
-          this.new_question_data.props.question_state = '尚未開始';
-        }else if(this.today > this.new_question_data.props.date_end){
-          this.new_question_data.props.question_state = '結束';
-        }
-
-        if(this.new_question_data.props.question_state=='進行中'){
-          this.new_question_data.props.date_write= true;
-        }else{
-          this.new_question_data.props.date_write = false;
-        }
-
-        this.question_data = this.service.getQuestions();
-
-        this.question_data.push({ ...this.new_question_data });
-
-        this.service.setQuestions(this.question_data);
-
-        this.new_question_data={
-          question_ID:0,
-          props:{
-            question_name:'',
-            question_text:'',
-            question_state:'',
-            date_start:'',
-            date_end:'',
-            date_write:false,
-            question:[{
-              questionName:'',
-              question_answer:[],
-              question_answer_type:'',
-              question_isTrue:false
-            }]
-          }
-        };
-       this.router.navigate(['/back']);
-
-}
-
-  question_set_cancel(){
-    this.router.navigate(['/back'])
+  questionTitleCheck(){
+    let res:string = '';
+    if(this.question.questionTitle.questionName=='')res+="問卷名稱不能為空\n";
+    if(this.question.questionTitle.questionText=='')res+="問卷敘述不能為空\n";
+    if(this.question.questionTitle.questionStart=='')res+="開始時間不能為空\n";
+    if(this.question.questionTitle.questionEnd=='')res+="結束時間不能為空\n";
+    if(this.question.questionTitle.questionStart > this.question.questionTitle.questionEnd)res+="開始時間不能大於結束時間\n";
+    if(res!=''){
+      alert(res);
+      this.question.questionTitle.questionName='';
+      this.question.questionTitle.questionText='';
+      this.question.questionTitle.questionStart='';
+      this.question.questionTitle.questionEnd=='';
+    }else{
+      this.titleCheck = true;
+      this.selectedTabIndex = 1;
+    }
   }
 
-  add_question(){
+  questionTopicCheck(){
 
-    this.new_question_data.props.question_answer.push('');
-    if(this.isChecked){
-      this.new_question_data.props.question_isTrue = true;
-    }else{
-      this.new_question_data.props.question_isTrue = false;
+    if(this.question.questionTitle.questionStart<=this.today && this.question.questionTitle.questionEnd >= this.today){
+      this.question.questionTitle.questionState="進行中";
+      this.question.questionTitle.questionTF = true;
+    }else if(this.today < this.question.questionTitle.questionStart){
+      this.question.questionTitle.questionState="尚未開始";
+    }else if(this.today > this.question.questionTitle.questionEnd){
+      this.question.questionTitle.questionState="結束";
     }
+
+    this.QuestionData = this.service.getQuestions();
+    const maxId = this.QuestionData.reduce((max, q) => q.questionID > max ? q.questionID : max, 0);
+    this.question.questionID = maxId + 1;
+
+    this.service.setPreviewQuestion(this.question);
+    this.router.navigate(['./back/add/question_preview', this.question.questionID]);
+  }
+  questionTopicCancel(){
+    this.titleCheck=false;
+    this.selectedTabIndex=0;
+  }
+
+  deleteAnswer(topicIndex: number, answerIndex: number) {
+    this.question.questionTopic[topicIndex].questionAnswer.splice(answerIndex, 1);
+  }
+
+  AddTopic(){
+    this.question.questionTopic.push({
+      questionName: '',
+      questionAnswerType: 'S',
+      questionAnswer: ["",""],
+      questionClick: false
+    });
+  }
+  AddAnswer(index:number){
+    console.log(index)
+    this.question.questionTopic[index].questionAnswer.push("");
+  }
+  onAnswerTypeChange(index: number) {
+  const type = this.question.questionTopic[index].questionAnswerType;
+  if (type === 'T') {
+    this.question.questionTopic[index].questionAnswer = [];
+  } else {
+    if (!this.question.questionTopic[index].questionAnswer || this.question.questionTopic[index].questionAnswer.length === 0) {
+      this.question.questionTopic[index].questionAnswer = ['', ''];
+    }
+  }
+}
+removeAnswer(topicIndex: number, answerIndex: number) {
+  const answers = this.question.questionTopic[topicIndex].questionAnswer;
+  if (answers.length > 2) {
+    answers.splice(answerIndex, 1);
+  } else {
+    alert('至少要保留二個答案');
+  }
+}
+
+  deleteTopic(index:number){
+    const confirmDelete = confirm(`確定要刪除第 ${index + 1} 題嗎？`);
+    if (confirmDelete) {
+      this.question.questionTopic.splice(index, 1);
+    }
+  }
+  questionTitleCancel(){
+    this.router.navigate(['./back']);
   }
 
 }

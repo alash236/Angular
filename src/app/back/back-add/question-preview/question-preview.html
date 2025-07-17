@@ -11,19 +11,19 @@
   <div class="user-info">
     <div class="form-group">
       <label>姓名:</label>
-      <input [(ngModel)]="username" />
+      <input [readonly]="true"/>
     </div>
     <div class="form-group">
       <label>手機:</label>
-      <input [(ngModel)]="userphone" />
+      <input [readonly]="true"/>
     </div>
     <div class="form-group">
       <label>信箱:</label>
-      <input [(ngModel)]="usermail" />
+      <input [readonly]="true"/>
     </div>
     <div class="form-group">
       <label>年齡:</label>
-      <input [(ngModel)]="userage" />
+      <input  [readonly]="true"/>
     </div>
   </div>
 
@@ -56,17 +56,13 @@
           @if (datas.question_answerType == 'S') {
             <input
               type="radio"
-              [value]="data"
-              [(ngModel)]="answerList[t].value"
-              name="radio{{t}}"
+              [readonly]="true"
             />
             <label>{{ data }}</label>
           } @else if (datas.question_answerType == 'M') {
             <input
               type="checkbox"
-              [value]="data"
-              (change)="onCheckboxChange($event, t, data)"
-              [checked]="answerList[t].value.includes(data)"
+              [readonly]="true"
             />
             <label>{{ data }}</label>
           }
@@ -76,7 +72,7 @@
       <div class="answer-option">
         <input
           type="text"
-          [(ngModel)]="answerList[t].value"
+          [readonly]="true"
           placeholder="請輸入您的答案"
         />
       </div>
@@ -87,7 +83,7 @@
 
   <!-- 預覽按鈕 -->
   <div class="button-group">
-    <button style="margin-right: 10px;"(click)="go_front()">上一頁</button>
-    <button (click)="preview(questionList)">儲存</button>
+    <button style="margin-right: 10px;"(click)="go_pre()">上一頁</button>
+    <button (click)="save()">預覽</button>
   </div>
 </div>
