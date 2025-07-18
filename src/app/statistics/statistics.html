@@ -4,14 +4,19 @@
 
 <div class="container">
   <div *ngFor="let question of questionData; let qIndex = index" class="question-block">
-    <h2>{{ question.questionTitle.questionName }}</h2>
-    <p>{{ question.questionTitle.questionText }}</p>
 
     <div *ngFor="let topic of question.questionTopic; let tIndex = index" class="topic-block">
-      <h4>{{ topic.questionName }}</h4>
-      <div *ngIf="(topic.questionAnswerType === 'M' || topic.questionAnswerType === 'S') && topic.question_click" class="chart-container">
+      @if(topic.questionAnswerType !='T'){
+        <h4>{{ topic.questionName }}</h4>
+      }
+      <div *ngIf="(topic.questionAnswerType !='T') && topic.question_click" class="chart-container">
         <canvas id="chart-{{qIndex}}-{{tIndex}}"></canvas>
       </div>
+      @if(topic.questionAnswerType === 'T'){
+      <div>
+        <h5>{{topic.questionAnswer}}</h5>
+      </div>
+      }
     </div>
 
   </div>

@@ -34,6 +34,7 @@ export class Question {
 
     this.route.queryParams.subscribe(params => {
       const fromPreview = params['fromPreview'];
+      const submissionIndex = Number(params['submissionIndex']);
 
       if (!fromPreview) {
         // 非從預覽頁回來，才清空資料
@@ -47,7 +48,6 @@ export class Question {
             usermail: '',
             userage: ''
           };
-        this.service.setPreviewData(this.question_ID, existing);
         }
     }
       // 讀取答案（如果有）
@@ -83,17 +83,18 @@ export class Question {
         }
       }
       const previewData = this.service.getPreviewData(this.question_ID);
-      if (previewData && previewData.user) {
-        this.username = previewData.user.username || '';
-        this.userphone = previewData.user.userphone || '';
-        this.usermail = previewData.user.usermail || '';
-        this.userage = previewData.user.userage || '';
+      if (previewData && previewData[submissionIndex] &&previewData[submissionIndex].user) {
+        const user = previewData[submissionIndex].user;
+        this.username = user.username || '';
+        this.userphone = user.userphone || '';
+        this.usermail = user.usermail || '';
+        this.userage = user.userage || '';
       }
 
     });
   }
 
-  preview(data:any[]){
+  preview(){
   if (this.username === '' || this.userphone === '' || this.userphone.length !== 10) {
     alert('資訊格式不完整，請重新輸入');
     this.username = '';
@@ -134,7 +135,16 @@ export class Question {
           userage: this.userage
         }
       };
-      this.service.setPreviewData(this.question_ID, previewData);
+
+      const previews = this.service.getPreviewData(this.question_ID) || [];
+      const isDuplicate = previews.some((p: { answers: any; user: { username: string; userphone: string; }; }) =>
+        JSON.stringify(p.answers) === JSON.stringify(previewData.answers) &&
+        p.user?.username === previewData.user.username &&
+        p.user?.userphone === previewData.user.userphone
+      );
+      if (!isDuplicate) {
+        this.service.setPreviewData(this.question_ID, previewData);
+      }
       const submissions = this.service.getPreviewData(this.question_ID);
       const currentIndex = submissions.length - 1;
       this.router.navigate(['./preview', this.question_ID], {

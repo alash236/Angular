@@ -96,3 +96,7 @@ mat-paginator {
   display: flex;
   justify-content: flex-end;
 }
+input[disabled]{
+  color: #c1b9b9;
+  cursor:not-allowed
+}

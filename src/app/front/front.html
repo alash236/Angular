@@ -30,6 +30,7 @@
       class="front-input"
       [min]="today"
       [max]="maxEndTime"
+      [disabled]="!search_start_time"
     />
 
     <button mat-fab color="primary" aria-label="登入" (click)="login()" class="login-btn">

@@ -58,7 +58,8 @@ export class Preview {
       this.router.navigate(['./feedback']);
       this.backcheck=true;
     }else{
-      this.router.navigate(['/question', this.id], { queryParams: { fromPreview: true } });
+      const index = Number(this.route.snapshot.queryParamMap.get('submissionIndex'));
+      this.router.navigate(['/question', this.id], { queryParams: { fromPreview: true,submissionIndex: index } });
     }
   }
   go_back(){
