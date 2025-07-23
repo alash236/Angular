@@ -1,3 +1,4 @@
+import { Question } from './../question/question';
 
 import { Component, ViewChild} from '@angular/core';
 import { Router} from '@angular/router';
@@ -46,6 +47,16 @@ export class Front {
       this.dataSource.data = res;
       this.searchArray = res;
     })
+
+    for(let datas of this.dataSource.data){
+      if(datas.questionTitle.questionStart <= this.today && datas.questionTitle.questionEnd >= this.today){
+        datas.questionTitle.questionState = '進行中';
+      }else if(this. today < datas.questionTitle.questionStart){
+        datas.questionTitle.questionState = '尚未開始';
+      }else if(this. today > datas.questionTitle.questionEnd){
+        datas.questionTitle.questionState='結束';
+      }
+    }
   }
 
   ngAfterViewInit() {

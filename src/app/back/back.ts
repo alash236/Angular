@@ -42,6 +42,15 @@ export class Back {
     this.maxEndTime = format(addDays(new Date(),7),'yyyy-MM-dd');
     this.searchArray = this.service.getQuestions();
     this.dataSource.data = this.service.getQuestions();
+    for(let datas of this.dataSource.data){
+      if(datas.questionTitle.questionStart <= this.today && datas.questionTitle.questionEnd >= this.today){
+        datas.questionTitle.questionState = '進行中';
+      }else if(this. today < datas.questionTitle.questionStart){
+        datas.questionTitle.questionState = '尚未開始';
+      }else if(this. today > datas.questionTitle.questionEnd){
+        datas.questionTitle.questionState='結束';
+      }
+    }
   }
 
   ngAfterViewInit() {

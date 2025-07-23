@@ -81,8 +81,11 @@
       <ng-container matColumnDef="date_write">
         <th mat-header-cell *matHeaderCellDef>結果</th>
         <td mat-cell *matCellDef="let element">
-          <a *ngIf="element.questionTitle.questionTF; else noFill" [routerLink]="['/question', element.questionID]">填寫</a>
-          <ng-template #noFill><label>填寫</label></ng-template>
+          @if(element.questionTitle.questionState=='進行中'){
+            <a [routerLink]="['/question', element.questionID]">填寫</a>
+          }@else if (element.questionTitle.questionState=='結束') {
+            <a [routerLink]="['/singlestatistics', element.questionID]">前往</a>
+          }
         </td>
       </ng-container>
 

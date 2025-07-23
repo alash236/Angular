@@ -34,7 +34,6 @@ export class BackAdd {
       questionState:'',
       questionStart:'',
       questionEnd:'',
-      questionTF:false
     },
     questionTopic:[{
       questionName:'',
@@ -74,15 +73,6 @@ export class BackAdd {
   }
 
   questionTopicCheck(){
-
-    if(this.question.questionTitle.questionStart<=this.today && this.question.questionTitle.questionEnd >= this.today){
-      this.question.questionTitle.questionState="進行中";
-      this.question.questionTitle.questionTF = true;
-    }else if(this.today < this.question.questionTitle.questionStart){
-      this.question.questionTitle.questionState="尚未開始";
-    }else if(this.today > this.question.questionTitle.questionEnd){
-      this.question.questionTitle.questionState="結束";
-    }
 
     this.QuestionData = this.service.getQuestions();
     const maxId = this.QuestionData.reduce((max, q) => q.questionID > max ? q.questionID : max, 0);
